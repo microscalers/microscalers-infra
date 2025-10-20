@@ -1,0 +1,52 @@
+Organizations:
+  - &Microscalers
+    Name: MicroscalersOrg
+    ID: MicroscalersMSP
+    MSPDir: crypto-config/organizations/microscalers.org/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('MicroscalersMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('MicroscalersMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('MicroscalersMSP.admin')"
+
+Application:
+  Organizations:
+    - *Microscalers
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+
+Channel:
+  Policies:
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+
+Profiles:
+  CatChain:
+    Consortium: MicroscalersConsortium
+    Application:
+      <<: *Application
+      Organizations:
+        - *Microscalers
+      Capabilities:
+        Channel: &ChannelCapabilities
+          V2_0: true
